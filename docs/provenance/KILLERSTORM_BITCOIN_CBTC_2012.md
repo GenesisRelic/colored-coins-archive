@@ -1,6 +1,6 @@
 # Provenance record: `killerstorm/bitcoin` `cbtc` branch, September 2012
 
-Status: **VERIFIED HISTORICAL SOURCE ARTIFACT / GENESIS CANDIDATE**
+Status: **VERIFIED HISTORICAL SOURCE ARTIFACT / TESTNET3 GENESIS LINEAGE RECONSTRUCTED**
 
 This record documents the surviving Bitcoin-Qt Colored Bitcoin proof-of-concept branch `cbtc` in `killerstorm/bitcoin`. It is an earlier implementation family than the later order-based weak-coloring algorithm and must be preserved as its own historical ruleset.
 
@@ -65,18 +65,30 @@ This is stronger evidence than a generic example TXID: the transaction is litera
 
 Current classification:
 
-**SOURCE-VERIFIED GENESIS CANDIDATE**
+**SOURCE-VERIFIED BITCOIN TESTNET3 GENESIS / SURVIVING LINEAGE**
 
-Not yet established:
+Independent read-only probes against both Blockstream Esplora and mempool.space resolve the embedded TXID to Bitcoin testnet3 and do not find it on the two queried Bitcoin mainnet services.
 
-- whether the TXID is Bitcoin mainnet, an historical testnet, or testnet3;
-- block height and timestamp;
-- transaction inputs/outputs and amounts;
-- whether the transaction remains available on the relevant chain;
-- complete descendant lineage;
-- whether any descendant outputs survive unspent.
+- network: `bitcoin-testnet3`
+- block height: `22926`
+- block hash: `0000000022682e00fb0aee8186adc712e71254658cccf7878a3eff9ffb7f74ff`
+- block time: `2012-09-03T16:31:19Z`
+- transaction index: `1`
 
-No claim of a mainnet historical Colored Coin relic should be made until these facts are independently verified.
+The root has two outputs, both spent. Replaying the September 2012 whole-transaction rules forward from the embedded genesis produces six archaeologically relevant transactions: four color-1 transactions including the root, plus two terminal mixed transactions where color is destroyed.
+
+Two color-1 testnet3 outputs remain unspent:
+
+| TXID:vout | Block | Value | Testnet P2PKH |
+|---|---:|---:|---|
+| `64dfdc0c777c1c100cae33a4ca86033f49f122514c9ef84b6fb7ad517a2595ce:0` | 22928 | 499,950,000 sats | `mnL3t1w673AsaCspJqfWQ3nQRft6FsgLpd` |
+| `cc5131c3c70d6905625a8294fc4ef52d2fec568f1351a07089d80f07960d127d:0` | 22940 | 2,500,000,000 sats | `mpeL5d4DfERgjEGN74qgCs8Crz435UDLNi` |
+
+Together they total **2,999,950,000 testnet satoshis (29.9995 tBTC units)** under this historical ruleset. This is protocol-state accounting on testnet3, not economic value.
+
+Both independent Esplora providers agree on the block data, lineage boundary, and current unspent status. The machine-readable census is preserved at `historical/census/cbtc_2012_testnet3_v0.1.json`.
+
+This finding must not be presented as a Bitcoin mainnet Colored Coin relic. It is a surviving testnet3 lineage embedded directly in the earliest recovered executable Colored Bitcoin source currently verified by this archive.
 
 ## September 7 multi-color wallet refinement
 
@@ -114,10 +126,8 @@ The `cbtc` branch is a primitive ancestor, not an interchangeable version of tho
 
 ## Archaeological next actions
 
-1. Resolve TXID `092ec331582704a05c5c0bde0b70825b2d31aea8342650582d889240da364397` against historical Bitcoin networks.
-2. If found, record block hash/height/time, all inputs, all outputs, script types, values, and spent/unspent state.
-3. Reimplement the September 4 transaction-level recursion exactly as a frozen historical kernel.
-4. Trace every descendant transaction reachable under those rules.
-5. Compare the September 4 candidate lineage with the September 7 wallet behavior.
-6. Preserve the complete `cbtc` branch independently as a Git bundle or bare mirror and publish a checksum.
-7. Never spend a historical descendant UTXO during verification.
+1. Preserve the complete `cbtc` Git branch independently as a Git bundle or bare mirror and publish checksums.
+2. Freeze the reconstructed testnet3 census as a versioned evidence artifact and never move either surviving UTXO.
+3. Compare the September 4 rules against the September 7 multi-color wallet refinement for behavioral differences.
+4. Move the primary mainnet archaeology effort to the later 2012 order-based weak-coloring / ArmoryX lineage.
+5. Resolve the historical TESTcc `c26166...:0` issue and recover public color-definition files such as FooCoins.
