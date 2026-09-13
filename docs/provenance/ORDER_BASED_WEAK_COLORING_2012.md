@@ -36,9 +36,9 @@ The September 4 source contains an especially important historical fingerprint:
 
 `CTransaction::GetPredefinedColor()` hard-codes that transaction hash as color `1`. Coinbase transactions are treated as the default/uncolored color, and other transactions are recursively classified from their parents.
 
-This hash is therefore a **source-verified candidate genesis transaction for the September 4 proof of concept**.
+This hash is therefore the source-embedded genesis transaction for the September 4 proof of concept. Read-only reconstruction now resolves it to **Bitcoin testnet3**, block 22926, at 2012-09-03T16:31:19Z. It is absent from the two queried Bitcoin mainnet services.
 
-Its Bitcoin network, block placement, transaction contents, outputs, descendants, and current UTXO status remain unresolved. The archive must not call it a mainnet relic until chain evidence independently establishes the network and transaction.
+A deterministic forward census under the September 4 rules finds four color-1 transactions, two terminal mixed boundaries, and two surviving color-1 testnet3 UTXOs totaling 2,999,950,000 testnet satoshis. This is historically significant testnet protocol state, not a mainnet asset or economic valuation.
 
 A later branch-tip commit:
 
@@ -176,9 +176,9 @@ The currently verified chronology is therefore:
 
 ## Priority unresolved targets
 
-1. Determine the Bitcoin network, block data, outputs, and descendants for the September 4 hard-coded genesis candidate `092ec331582704a05c5c0bde0b70825b2d31aea8342650582d889240da364397`.
+1. Resolve the Bitcoin network and block data for TESTcc issue `c26166c7a387b85eca0adbb86811a9d122a5d96605627ad4125f17f6ddcbf89b:0`.
 2. Recover Jutarul's September 19 `validate.py` and `transactions.yaml` from an archive or mirror.
 3. Recover the exact FooCoins definition for ColorID `c03e572bc2c8520112194a95a29b24c7e99fc87e`.
-4. Determine the Bitcoin network and block data for TESTcc issue `c26166c7...:0`.
+4. Recover Congo Shares and Test112 color-definition files from the January 2013 CCDSE lineage.
 5. Recover additional 2012 color-definition registry files from archived binaries, mirrors, caches, or historical web archives.
-6. Reconstruct all known 2012 issuance definitions into deterministic scanner test vectors.
+6. Reconstruct each verified order-based issuance definition into deterministic Bitcoin lineage test vectors.

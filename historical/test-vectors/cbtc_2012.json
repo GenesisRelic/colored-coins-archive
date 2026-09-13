@@ -1,0 +1,66 @@
+{
+  "ruleset_id": "killerstorm-bitcoin-cbtc-2012-09-04",
+  "source_repository": "https://github.com/killerstorm/bitcoin",
+  "source_branch": "cbtc",
+  "source_commit": "e64cafd0b5f2cad8bd86068e8661a53fe4d36bb6",
+  "genesis_txid": "092ec331582704a05c5c0bde0b70825b2d31aea8342650582d889240da364397",
+  "genesis_color": 1,
+  "vectors": [
+    {
+      "name": "source-embedded genesis overrides parent colors",
+      "txid": "092ec331582704a05c5c0bde0b70825b2d31aea8342650582d889240da364397",
+      "is_coinbase": false,
+      "input_colors": [0, 1],
+      "expected": 1
+    },
+    {
+      "name": "coinbase is default color",
+      "txid": "0000000000000000000000000000000000000000000000000000000000000001",
+      "is_coinbase": true,
+      "input_colors": [],
+      "expected": 0
+    },
+    {
+      "name": "single colored parent propagates",
+      "txid": "0000000000000000000000000000000000000000000000000000000000000002",
+      "is_coinbase": false,
+      "input_colors": [1],
+      "expected": 1
+    },
+    {
+      "name": "matching colored parents propagate",
+      "txid": "0000000000000000000000000000000000000000000000000000000000000003",
+      "is_coinbase": false,
+      "input_colors": [1, 1, 1],
+      "expected": 1
+    },
+    {
+      "name": "different known colors mix",
+      "txid": "0000000000000000000000000000000000000000000000000000000000000004",
+      "is_coinbase": false,
+      "input_colors": [1, 0],
+      "expected": -1
+    },
+    {
+      "name": "unknown parent stops classification",
+      "txid": "0000000000000000000000000000000000000000000000000000000000000005",
+      "is_coinbase": false,
+      "input_colors": [1, -2, 1],
+      "expected": -2
+    },
+    {
+      "name": "default parents remain default",
+      "txid": "0000000000000000000000000000000000000000000000000000000000000006",
+      "is_coinbase": false,
+      "input_colors": [0, 0],
+      "expected": 0
+    },
+    {
+      "name": "mixed parent remains mixed when combined with default",
+      "txid": "0000000000000000000000000000000000000000000000000000000000000007",
+      "is_coinbase": false,
+      "input_colors": [-1, 0],
+      "expected": -1
+    }
+  ]
+}

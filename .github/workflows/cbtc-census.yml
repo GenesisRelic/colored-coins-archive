@@ -1,0 +1,57 @@
+name: CBTC 2012 lineage census
+
+on:
+  push:
+    branches:
+      - main
+      - reconstruction/cbtc-2012-kernel
+    paths:
+      - ".github/workflows/cbtc-census.yml"
+      - "scripts/resolve_cbtc_2012.py"
+      - "indexer/cbtc_census.py"
+      - "indexer/protocols/cbtc_2012.py"
+      - "indexer/sources/esplora.py"
+      - "historical/candidates/cbtc_2012_genesis_092ec331.json"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  census:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - label: mempool-testnet3
+            base_url: https://mempool.space/testnet
+          - label: blockstream-testnet3
+            base_url: https://blockstream.info/testnet
+
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Reconstruct colored lineage
+        shell: bash
+        run: |
+          mkdir -p results
+          set +e
+          python scripts/resolve_cbtc_2012.py \
+            --base-url "${{ matrix.base_url }}" \
+            --network "bitcoin-testnet3" \
+            > "results/${{ matrix.label }}.json"
+          code=$?
+          set -e
+          echo "census_exit_code=$code"
+          cat "results/${{ matrix.label }}.json"
+
+      - name: Upload census evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: cbtc-census-${{ matrix.label }}
+          path: results/${{ matrix.label }}.json
+          if-no-files-found: error

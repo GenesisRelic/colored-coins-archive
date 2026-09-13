@@ -1,0 +1,112 @@
+{
+  "artifact_id": "cbtc-2012-genesis-candidate-092ec331",
+  "status": "source-verified-testnet3-resolved",
+  "protocol_ruleset": "killerstorm-bitcoin-cbtc-2012-09-04",
+  "txid": "092ec331582704a05c5c0bde0b70825b2d31aea8342650582d889240da364397",
+  "source": {
+    "repository": "https://github.com/killerstorm/bitcoin",
+    "branch": "cbtc",
+    "commit": "e64cafd0b5f2cad8bd86068e8661a53fe4d36bb6",
+    "function": "CTransaction::GetPredefinedColor",
+    "assigned_color": 1
+  },
+  "network": "bitcoin-testnet3",
+  "block_height": 22926,
+  "block_hash": "0000000022682e00fb0aee8186adc712e71254658cccf7878a3eff9ffb7f74ff",
+  "block_time": 1346689879,
+  "block_time_utc": "2012-09-03T16:31:19Z",
+  "transaction_index": 1,
+  "inputs": [
+    {
+      "prev_txid": "da04364bae744cfa0697c6632dcd00695ff6eb59394cdb70fb97c8b8261fcc61",
+      "prev_vout": 0
+    },
+    {
+      "prev_txid": "c9062c30e398ab913e6763f1ac5e12d3138f04c37b9bb8007abff219bec202d2",
+      "prev_vout": 1
+    }
+  ],
+  "outputs": [
+    {
+      "vout": 0,
+      "value_sats": 88950000,
+      "script_pubkey_hex": "76a91497b5abc601099a226fd0a9e4cb675df98c699d1688ac",
+      "testnet_p2pkh_address": "muM7xjzfBScJ9TujmRXZzvrMF1S8AeALqd",
+      "spent_by": "b710bbc1f295df94119cafea69fa69bd4801bfd927b381c9eccd4cd50a2fcc03"
+    },
+    {
+      "vout": 1,
+      "value_sats": 5000000000,
+      "script_pubkey_hex": "76a91454a848bd993951342236d201914f5796785646df88ac",
+      "testnet_p2pkh_address": "moEaekk95oJrdH6JWb7KYEtJEyksKy7Hs1",
+      "spent_by": "64dfdc0c777c1c100cae33a4ca86033f49f122514c9ef84b6fb7ad517a2595ce"
+    }
+  ],
+  "network_resolution_evidence": [
+    {
+      "provider": "Blockstream Esplora",
+      "endpoint_base": "https://blockstream.info",
+      "network": "bitcoin-mainnet",
+      "result": "not-found"
+    },
+    {
+      "provider": "mempool.space Esplora",
+      "endpoint_base": "https://mempool.space",
+      "network": "bitcoin-mainnet",
+      "result": "not-found"
+    },
+    {
+      "provider": "Blockstream Esplora",
+      "endpoint_base": "https://blockstream.info/testnet",
+      "network": "bitcoin-testnet3",
+      "result": "found"
+    },
+    {
+      "provider": "mempool.space Esplora",
+      "endpoint_base": "https://mempool.space/testnet",
+      "network": "bitcoin-testnet3",
+      "result": "found"
+    }
+  ],
+  "probe_workflow": {
+    "run_id": 34746418745,
+    "head_sha": "ef3430ecc4afb3a37bdde8104fd05e87188c4840"
+  },
+  "descendant_count": 5,
+  "surviving_utxos": [
+    {
+      "txid": "64dfdc0c777c1c100cae33a4ca86033f49f122514c9ef84b6fb7ad517a2595ce",
+      "vout": 0,
+      "value_sats": 499950000,
+      "script_pubkey_hex": "76a9144ab8f7ae48be41fe4acf83f64caedfcc92837c5088ac",
+      "testnet_p2pkh_address": "mnL3t1w673AsaCspJqfWQ3nQRft6FsgLpd"
+    },
+    {
+      "txid": "cc5131c3c70d6905625a8294fc4ef52d2fec568f1351a07089d80f07960d127d",
+      "vout": 0,
+      "value_sats": 2500000000,
+      "script_pubkey_hex": "76a914641e3ac3439ef9f6d38801fc1ea0a2581191664588ac",
+      "testnet_p2pkh_address": "mpeL5d4DfERgjEGN74qgCs8Crz435UDLNi"
+    }
+  ],
+  "notes": [
+    "The source-embedded genesis transaction is confirmed on Bitcoin testnet3, not on the two queried Bitcoin mainnet services.",
+    "Two independent Esplora providers agree on the reconstructed testnet3 lineage and surviving output state.",
+    "Two color-1 outputs remain unspent under the September 2012 whole-transaction rules, totaling 2,999,950,000 testnet satoshis (29.9995 tBTC units). This is protocol-state accounting, not economic value.",
+    "Two descendant transactions form terminal mixed boundaries where color 1 is destroyed under the historical rules.",
+    "Do not spend or move any surviving or descendant output during archaeological verification.",
+    "The September 2012 cbtc rules color whole transactions, not individual outputs.",
+    "This network-resolution record does not claim anything about retired historical testnet variants."
+  ],
+  "census": {
+    "census_id": "cbtc-2012-testnet3-v0.1",
+    "workflow_run_id": 34746597636,
+    "workflow_head_sha": "f22eec926cad874d19c1a19b936488f7728d44f0",
+    "providers_agree": true,
+    "transactions_observed": 6,
+    "color_1_transactions": 4,
+    "terminal_mixed_transactions": 2
+  },
+  "surviving_color_1_sats": 2999950000,
+  "surviving_color_1_units_tbtc": 29.9995
+}
