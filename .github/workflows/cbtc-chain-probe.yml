@@ -1,0 +1,57 @@
+name: CBTC 2012 chain probe
+
+on:
+  push:
+    branches:
+      - reconstruction/cbtc-2012-kernel
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - label: mempool-mainnet
+            network: bitcoin-mainnet
+            base_url: https://mempool.space
+          - label: mempool-testnet3
+            network: bitcoin-testnet3
+            base_url: https://mempool.space/testnet
+          - label: blockstream-mainnet
+            network: bitcoin-mainnet
+            base_url: https://blockstream.info
+          - label: blockstream-testnet3
+            network: bitcoin-testnet3
+            base_url: https://blockstream.info/testnet
+
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Probe source-embedded genesis candidate
+        shell: bash
+        run: |
+          mkdir -p results
+          set +e
+          python scripts/probe_cbtc_2012.py \
+            --base-url "${{ matrix.base_url }}" \
+            --network "${{ matrix.network }}" \
+            > "results/${{ matrix.label }}.json"
+          code=$?
+          set -e
+          echo "probe_exit_code=$code"
+          cat "results/${{ matrix.label }}.json"
+
+      - name: Upload probe evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: cbtc-probe-${{ matrix.label }}
+          path: results/${{ matrix.label }}.json
+          if-no-files-found: error
