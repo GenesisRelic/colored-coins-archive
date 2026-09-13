@@ -3,7 +3,13 @@ name: CBTC 2012 chain probe
 on:
   push:
     branches:
+      - main
       - reconstruction/cbtc-2012-kernel
+    paths:
+      - ".github/workflows/cbtc-chain-probe.yml"
+      - "scripts/probe_cbtc_2012.py"
+      - "indexer/sources/esplora.py"
+      - "historical/candidates/cbtc_2012_genesis_092ec331.json"
   workflow_dispatch:
 
 permissions:
