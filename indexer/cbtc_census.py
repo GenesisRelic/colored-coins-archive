@@ -55,10 +55,11 @@ class CensusResult:
 class Cbtc2012Census:
     """Reconstruct descendants under the primitive whole-transaction rules.
 
-    The scanner follows every canonical-chain spender reachable from the root,
-    including transactions that become mixed. This preserves the destruction/
-    mixing history instead of silently dropping a lineage at the first mixed
-    transaction.
+    The scanner follows canonical spenders while a transaction remains color 1.
+    A spender that becomes mixed/default/unknown is still included as the
+    terminal destruction boundary, but its outputs are not followed further.
+    This preserves the first loss-of-color event without wandering indefinitely
+    through unrelated later transaction history.
     """
 
     def __init__(self, source: TransactionSource):
@@ -133,7 +134,17 @@ class Cbtc2012Census:
                         spent_by=spender,
                     )
                 )
-                if spender is not None and spender not in seen:
+                # Follow a spender only while the source transaction still
+                # carries the historical color. A spender of a color-1 output
+                # is always inspected, but once that spender classifies as
+                # mixed/default/unknown its outputs are recorded as the point
+                # where the colored lineage terminates and are not followed
+                # further.
+                if (
+                    color == GENESIS_COLOR
+                    and spender is not None
+                    and spender not in seen
+                ):
                     queue.append(spender)
 
         ordered_records = sorted(records.values(), key=TxRecord.historical_sort_key)
