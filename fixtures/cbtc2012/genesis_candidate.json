@@ -1,0 +1,20 @@
+{
+  "protocol": "killerstorm-bitcoin-cbtc-2012-09-04",
+  "source_commit": "e64cafd0b5f2cad8bd86068e8661a53fe4d36bb6",
+  "txid": "092ec331582704a05c5c0bde0b70825b2d31aea8342650582d889240da364397",
+  "predefined_color": 1,
+  "network": null,
+  "block_hash": null,
+  "block_height": null,
+  "block_time": null,
+  "transaction_hex": null,
+  "outputs": null,
+  "outspends": null,
+  "classification": "source-verified-genesis-candidate",
+  "verification_state": "chain-unresolved",
+  "notes": [
+    "The September 4, 2012 cbtc source hard-codes this transaction hash as color 1.",
+    "Do not infer mainnet, historical testnet, or testnet3 until independent chain evidence resolves the transaction.",
+    "Do not spend any descendant output during archaeological verification."
+  ]
+}
