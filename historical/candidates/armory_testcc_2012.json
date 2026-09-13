@@ -1,0 +1,33 @@
+{
+  "artifact_id": "armory-testcc-2012-c26166c7",
+  "status": "source-verified-network-unresolved",
+  "protocol_ruleset": "armory-order-based-weak-coloring-2012-12-01",
+  "name": "TESTcc",
+  "color_id": "7452b90e22a0b758a048a3db9efa4fd361107350",
+  "metadata_hash": "776d7100a4e22ca75d038d4e533b876f61ecc3a6",
+  "unit": 1,
+  "definition_style": "genesis",
+  "issue": {
+    "txid": "c26166c7a387b85eca0adbb86811a9d122a5d96605627ad4125f17f6ddcbf89b",
+    "vout": 0
+  },
+  "source": {
+    "repository": "https://github.com/vbuterin/BitcoinArmory",
+    "branch": "color",
+    "commit": "3c3cc413cdcc3190d994f64c3d84c67f6cc6f0d9",
+    "function": "MakeTestColorDefinition"
+  },
+  "network": null,
+  "block_height": null,
+  "block_hash": null,
+  "block_time": null,
+  "issue_output_value_sats": null,
+  "spent_by": null,
+  "surviving_utxos": null,
+  "notes": [
+    "This is an exact historical Armory color definition recovered from source.",
+    "The color definition overrides the issue TXID:vout as colored by definition.",
+    "Do not infer Bitcoin mainnet or testnet status until independent chain evidence resolves the transaction.",
+    "Do not spend or move any historical descendant output during reconstruction."
+  ]
+}
