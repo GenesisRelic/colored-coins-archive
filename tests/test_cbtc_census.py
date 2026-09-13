@@ -96,17 +96,21 @@ class Cbtc2012CensusTests(unittest.TestCase):
         self.assertEqual(census.classify(self.mixed), int(Color.MIXED))
         self.assertEqual(census.classify(self.mixed_child), int(Color.MIXED))
 
-    def test_descendant_scan_preserves_mixed_history(self):
+    def test_descendant_scan_records_first_mixing_boundary_and_stops(self):
         result = Cbtc2012Census(self.source).scan()
 
         self.assertTrue(result.root_found)
         self.assertEqual(
             [tx.txid for tx in result.transactions],
-            [GENESIS_TXID, self.a, self.b, self.mixed, self.mixed_child],
+            [GENESIS_TXID, self.a, self.b, self.mixed],
         )
         self.assertEqual(
             [tx.color for tx in result.transactions],
-            [1, 1, 1, -1, -1],
+            [1, 1, 1, -1],
+        )
+        self.assertNotIn(
+            self.mixed_child,
+            [tx.txid for tx in result.transactions],
         )
 
     def test_surviving_color_supply_counts_only_unspent_color_one_outputs(self):
