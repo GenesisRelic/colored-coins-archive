@@ -1,0 +1,187 @@
+{
+  "census_id": "cbtc-2012-testnet3-v0.1",
+  "ruleset_id": "killerstorm-bitcoin-cbtc-2012-09-04",
+  "network": "bitcoin-testnet3",
+  "root_txid": "092ec331582704a05c5c0bde0b70825b2d31aea8342650582d889240da364397",
+  "status": "reconstructed",
+  "evidence": {
+    "workflow_run_id": 34746597636,
+    "workflow_head_sha": "f22eec926cad874d19c1a19b936488f7728d44f0",
+    "providers": [
+      {
+        "name": "mempool.space Esplora",
+        "base_url": "https://mempool.space/testnet",
+        "result": "agreement"
+      },
+      {
+        "name": "Blockstream Esplora",
+        "base_url": "https://blockstream.info/testnet",
+        "result": "agreement"
+      }
+    ],
+    "artifacts": [
+      {
+        "name": "cbtc-census-mempool-testnet3",
+        "artifact_id": 10313689896,
+        "archive_sha256": "8c0c7072c4dad3c73c8c182ccee739557b1889975ea539d5933e0ca041cc6c83"
+      },
+      {
+        "name": "cbtc-census-blockstream-testnet3",
+        "artifact_id": 10314312586,
+        "archive_sha256": "904a7bdca0b9fe14b1e292bfa16584b0a6fb4c00bb2ae252b40c04f7a5ccde20"
+      }
+    ]
+  },
+  "summary": {
+    "transactions_observed": 6,
+    "color_1_transactions": 4,
+    "terminal_mixed_transactions": 2,
+    "surviving_color_1_outputs": 2,
+    "surviving_color_1_sats": 2999950000
+  },
+  "transactions": [
+    {
+      "txid": "092ec331582704a05c5c0bde0b70825b2d31aea8342650582d889240da364397",
+      "color": 1,
+      "block_height": 22926,
+      "tx_index": 1,
+      "block_hash": "0000000022682e00fb0aee8186adc712e71254658cccf7878a3eff9ffb7f74ff",
+      "block_time": 1346689879,
+      "block_time_utc": "2012-09-03T16:31:19Z"
+    },
+    {
+      "txid": "64dfdc0c777c1c100cae33a4ca86033f49f122514c9ef84b6fb7ad517a2595ce",
+      "color": 1,
+      "block_height": 22928,
+      "tx_index": 1,
+      "block_hash": "00000000c9b3add7ba90d6b6eec1f2a78e8789b0e2a6af57e25fa3237cfd273b",
+      "block_time": 1346691479,
+      "block_time_utc": "2012-09-03T16:57:59Z"
+    },
+    {
+      "txid": "d113e642d1431fa3cad59575962c7985a02b5ce318c311ab8285ddcefacc58be",
+      "color": 1,
+      "block_height": 22934,
+      "tx_index": 1,
+      "block_hash": "0000000029ea1a46bcf44079644855dc30dd13bb97ddfc8ddbc65932cd074f9f",
+      "block_time": 1346696368,
+      "block_time_utc": "2012-09-03T18:19:28Z"
+    },
+    {
+      "txid": "bcd5efcb1297a12b5089a48d78e651333f207d7019eaf6c2cc8254ba726c9a2c",
+      "color": -1,
+      "classification": "terminal-mixed",
+      "block_height": 22934,
+      "tx_index": 3,
+      "block_hash": "0000000029ea1a46bcf44079644855dc30dd13bb97ddfc8ddbc65932cd074f9f",
+      "block_time": 1346696368,
+      "block_time_utc": "2012-09-03T18:19:28Z"
+    },
+    {
+      "txid": "cc5131c3c70d6905625a8294fc4ef52d2fec568f1351a07089d80f07960d127d",
+      "color": 1,
+      "block_height": 22940,
+      "tx_index": 4,
+      "block_hash": "000000005e94c1d5c6587098d1b4260f793481f75cf30d93bcaa6c740220ed76",
+      "block_time": 1346701871,
+      "block_time_utc": "2012-09-03T19:51:11Z"
+    },
+    {
+      "txid": "b710bbc1f295df94119cafea69fa69bd4801bfd927b381c9eccd4cd50a2fcc03",
+      "color": -1,
+      "classification": "terminal-mixed",
+      "block_height": 26203,
+      "tx_index": 1,
+      "block_hash": "00000000cdb9690407832b85479af74515b4287f2fcdb685f15b3a2906659aa5",
+      "block_time": 1347777462,
+      "block_time_utc": "2012-09-16T06:37:42Z"
+    }
+  ],
+  "outputs": [
+    {
+      "txid": "092ec331582704a05c5c0bde0b70825b2d31aea8342650582d889240da364397",
+      "vout": 0,
+      "value_sats": 88950000,
+      "transaction_color": 1,
+      "spent_by": "b710bbc1f295df94119cafea69fa69bd4801bfd927b381c9eccd4cd50a2fcc03"
+    },
+    {
+      "txid": "092ec331582704a05c5c0bde0b70825b2d31aea8342650582d889240da364397",
+      "vout": 1,
+      "value_sats": 5000000000,
+      "transaction_color": 1,
+      "spent_by": "64dfdc0c777c1c100cae33a4ca86033f49f122514c9ef84b6fb7ad517a2595ce"
+    },
+    {
+      "txid": "64dfdc0c777c1c100cae33a4ca86033f49f122514c9ef84b6fb7ad517a2595ce",
+      "vout": 0,
+      "value_sats": 499950000,
+      "transaction_color": 1,
+      "spent_by": null,
+      "classification": "surviving-color-1-utxo"
+    },
+    {
+      "txid": "64dfdc0c777c1c100cae33a4ca86033f49f122514c9ef84b6fb7ad517a2595ce",
+      "vout": 1,
+      "value_sats": 4500000000,
+      "transaction_color": 1,
+      "spent_by": "d113e642d1431fa3cad59575962c7985a02b5ce318c311ab8285ddcefacc58be"
+    },
+    {
+      "txid": "d113e642d1431fa3cad59575962c7985a02b5ce318c311ab8285ddcefacc58be",
+      "vout": 0,
+      "value_sats": 2000000000,
+      "transaction_color": 1,
+      "spent_by": "bcd5efcb1297a12b5089a48d78e651333f207d7019eaf6c2cc8254ba726c9a2c"
+    },
+    {
+      "txid": "d113e642d1431fa3cad59575962c7985a02b5ce318c311ab8285ddcefacc58be",
+      "vout": 1,
+      "value_sats": 2500000000,
+      "transaction_color": 1,
+      "spent_by": "cc5131c3c70d6905625a8294fc4ef52d2fec568f1351a07089d80f07960d127d"
+    },
+    {
+      "txid": "bcd5efcb1297a12b5089a48d78e651333f207d7019eaf6c2cc8254ba726c9a2c",
+      "vout": 0,
+      "value_sats": 1999900000,
+      "transaction_color": -1,
+      "spent_by": "94dc2c102d87c03226627a7d161bc7132b73f93c63b90c8599b669573d9e878b"
+    },
+    {
+      "txid": "bcd5efcb1297a12b5089a48d78e651333f207d7019eaf6c2cc8254ba726c9a2c",
+      "vout": 1,
+      "value_sats": 2500000000,
+      "transaction_color": -1,
+      "spent_by": "78aff6e6572adc345e6600a9b7946fbdf132af30818a2dfbc6ad34e02c1fc667"
+    },
+    {
+      "txid": "cc5131c3c70d6905625a8294fc4ef52d2fec568f1351a07089d80f07960d127d",
+      "vout": 0,
+      "value_sats": 2500000000,
+      "transaction_color": 1,
+      "spent_by": null,
+      "classification": "surviving-color-1-utxo"
+    },
+    {
+      "txid": "b710bbc1f295df94119cafea69fa69bd4801bfd927b381c9eccd4cd50a2fcc03",
+      "vout": 0,
+      "value_sats": 88250000,
+      "transaction_color": -1,
+      "spent_by": "af1bb0da9e38fc1e5b9ffd26b1e5db9d06a8ccb18232614e463edfa46b667e8b"
+    },
+    {
+      "txid": "b710bbc1f295df94119cafea69fa69bd4801bfd927b381c9eccd4cd50a2fcc03",
+      "vout": 1,
+      "value_sats": 5000000000,
+      "transaction_color": -1,
+      "spent_by": null
+    }
+  ],
+  "interpretation": [
+    "Under the September 2012 whole-transaction cbtc rules, two testnet3 outputs remain unspent and color 1.",
+    "The surviving color-1 amount is 2,999,950,000 testnet satoshis (29.9995 tBTC units). This is protocol-state accounting, not economic value.",
+    "Two spender transactions are terminal mixed boundaries where the color-1 lineage is destroyed under the historical rules.",
+    "The census stops at the first loss-of-color boundary and never spends or moves any output."
+  ]
+}
