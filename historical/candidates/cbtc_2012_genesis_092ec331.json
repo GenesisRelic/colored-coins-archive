@@ -1,6 +1,6 @@
 {
   "artifact_id": "cbtc-2012-genesis-candidate-092ec331",
-  "status": "source-verified-network-unresolved",
+  "status": "source-verified-testnet3-resolved",
   "protocol_ruleset": "killerstorm-bitcoin-cbtc-2012-09-04",
   "txid": "092ec331582704a05c5c0bde0b70825b2d31aea8342650582d889240da364397",
   "source": {
@@ -10,17 +10,75 @@
     "function": "CTransaction::GetPredefinedColor",
     "assigned_color": 1
   },
-  "network": null,
-  "block_height": null,
-  "block_hash": null,
-  "block_time": null,
-  "transaction_index": null,
-  "outputs": null,
+  "network": "bitcoin-testnet3",
+  "block_height": 22926,
+  "block_hash": "0000000022682e00fb0aee8186adc712e71254658cccf7878a3eff9ffb7f74ff",
+  "block_time": 1346689879,
+  "block_time_utc": "2012-09-03T16:31:19Z",
+  "transaction_index": 1,
+  "inputs": [
+    {
+      "prev_txid": "da04364bae744cfa0697c6632dcd00695ff6eb59394cdb70fb97c8b8261fcc61",
+      "prev_vout": 0
+    },
+    {
+      "prev_txid": "c9062c30e398ab913e6763f1ac5e12d3138f04c37b9bb8007abff219bec202d2",
+      "prev_vout": 1
+    }
+  ],
+  "outputs": [
+    {
+      "vout": 0,
+      "value_sats": 88950000,
+      "script_pubkey_hex": "76a91497b5abc601099a226fd0a9e4cb675df98c699d1688ac",
+      "testnet_p2pkh_address": "muM7xjzfBScJ9TujmRXZzvrMF1S8AeALqd",
+      "spent_by": "b710bbc1f295df94119cafea69fa69bd4801bfd927b381c9eccd4cd50a2fcc03"
+    },
+    {
+      "vout": 1,
+      "value_sats": 5000000000,
+      "script_pubkey_hex": "76a91454a848bd993951342236d201914f5796785646df88ac",
+      "testnet_p2pkh_address": "moEaekk95oJrdH6JWb7KYEtJEyksKy7Hs1",
+      "spent_by": "64dfdc0c777c1c100cae33a4ca86033f49f122514c9ef84b6fb7ad517a2595ce"
+    }
+  ],
+  "network_resolution_evidence": [
+    {
+      "provider": "Blockstream Esplora",
+      "endpoint_base": "https://blockstream.info",
+      "network": "bitcoin-mainnet",
+      "result": "not-found"
+    },
+    {
+      "provider": "mempool.space Esplora",
+      "endpoint_base": "https://mempool.space",
+      "network": "bitcoin-mainnet",
+      "result": "not-found"
+    },
+    {
+      "provider": "Blockstream Esplora",
+      "endpoint_base": "https://blockstream.info/testnet",
+      "network": "bitcoin-testnet3",
+      "result": "found"
+    },
+    {
+      "provider": "mempool.space Esplora",
+      "endpoint_base": "https://mempool.space/testnet",
+      "network": "bitcoin-testnet3",
+      "result": "found"
+    }
+  ],
+  "probe_workflow": {
+    "run_id": 34746418745,
+    "head_sha": "ef3430ecc4afb3a37bdde8104fd05e87188c4840"
+  },
   "descendant_count": null,
   "surviving_utxos": null,
   "notes": [
-    "Do not classify as Bitcoin mainnet until independent chain evidence resolves the network.",
+    "The source-embedded genesis transaction is confirmed on Bitcoin testnet3, not on the queried Bitcoin mainnet services.",
+    "Both source-genesis outputs are already spent; descendant reconstruction is required to determine whether any color-1 lineage survives.",
     "Do not spend or move any descendant output during archaeological verification.",
-    "The September 2012 cbtc rules color whole transactions, not individual outputs."
+    "The September 2012 cbtc rules color whole transactions, not individual outputs.",
+    "This network-resolution record does not claim anything about retired historical testnet variants."
   ]
 }
