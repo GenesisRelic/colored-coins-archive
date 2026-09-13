@@ -30,7 +30,37 @@
         "artifact_id": 10314312586,
         "archive_sha256": "904a7bdca0b9fe14b1e292bfa16584b0a6fb4c00bb2ae252b40c04f7a5ccde20"
       }
-    ]
+    ],
+    "survivor_probe": {
+      "workflow_run_id": 34746726191,
+      "workflow_head_sha": "40f8b9445c0e724a5a84fde26631b1ffe46b112d",
+      "providers": [
+        "mempool.space Esplora",
+        "Blockstream Esplora"
+      ],
+      "artifacts": [
+        {
+          "name": "cbtc-mempool-survivor-a",
+          "artifact_id": 10313833753,
+          "archive_sha256": "fed12e941bd9d22e0d3794ae27520429955c4e22869ac25c02d9b11d5b0177b9"
+        },
+        {
+          "name": "cbtc-blockstream-survivor-a",
+          "artifact_id": 10313878551,
+          "archive_sha256": "edd6c0f73ff71877cc7cd1c782b6ab3fded80b91088cdfd2ca5870c624a182ba"
+        },
+        {
+          "name": "cbtc-mempool-survivor-b",
+          "artifact_id": 10314241757,
+          "archive_sha256": "a08c4afcf88c4537761773e0acc2dbf2cb34d4c54d18c059603ce56bd9e6be07"
+        },
+        {
+          "name": "cbtc-blockstream-survivor-b",
+          "artifact_id": 10314745828,
+          "archive_sha256": "da79fe68c3a6dfd355d14040825d1a298212f4dc64240f3785641528ba0276a4"
+        }
+      ]
+    }
   },
   "summary": {
     "transactions_observed": 6,
@@ -118,7 +148,9 @@
       "value_sats": 499950000,
       "transaction_color": 1,
       "spent_by": null,
-      "classification": "surviving-color-1-utxo"
+      "classification": "surviving-color-1-utxo",
+      "script_pubkey_hex": "76a9144ab8f7ae48be41fe4acf83f64caedfcc92837c5088ac",
+      "testnet_p2pkh_address": "mnL3t1w673AsaCspJqfWQ3nQRft6FsgLpd"
     },
     {
       "txid": "64dfdc0c777c1c100cae33a4ca86033f49f122514c9ef84b6fb7ad517a2595ce",
@@ -161,7 +193,9 @@
       "value_sats": 2500000000,
       "transaction_color": 1,
       "spent_by": null,
-      "classification": "surviving-color-1-utxo"
+      "classification": "surviving-color-1-utxo",
+      "script_pubkey_hex": "76a914641e3ac3439ef9f6d38801fc1ea0a2581191664588ac",
+      "testnet_p2pkh_address": "mpeL5d4DfERgjEGN74qgCs8Crz435UDLNi"
     },
     {
       "txid": "b710bbc1f295df94119cafea69fa69bd4801bfd927b381c9eccd4cd50a2fcc03",
@@ -182,6 +216,7 @@
     "Under the September 2012 whole-transaction cbtc rules, two testnet3 outputs remain unspent and color 1.",
     "The surviving color-1 amount is 2,999,950,000 testnet satoshis (29.9995 tBTC units). This is protocol-state accounting, not economic value.",
     "Two spender transactions are terminal mixed boundaries where the color-1 lineage is destroyed under the historical rules.",
-    "The census stops at the first loss-of-color boundary and never spends or moves any output."
+    "The census stops at the first loss-of-color boundary and never spends or moves any output.",
+    "Surviving output addresses are derived from standard P2PKH scripts using the Bitcoin testnet address version."
   ]
 }
