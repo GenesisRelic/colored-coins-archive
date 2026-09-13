@@ -72,13 +72,41 @@
     "run_id": 34746418745,
     "head_sha": "ef3430ecc4afb3a37bdde8104fd05e87188c4840"
   },
-  "descendant_count": null,
-  "surviving_utxos": null,
+  "descendant_count": 5,
+  "surviving_utxos": [
+    {
+      "txid": "64dfdc0c777c1c100cae33a4ca86033f49f122514c9ef84b6fb7ad517a2595ce",
+      "vout": 0,
+      "value_sats": 499950000,
+      "script_pubkey_hex": "76a9144ab8f7ae48be41fe4acf83f64caedfcc92837c5088ac",
+      "testnet_p2pkh_address": "mnL3t1w673AsaCspJqfWQ3nQRft6FsgLpd"
+    },
+    {
+      "txid": "cc5131c3c70d6905625a8294fc4ef52d2fec568f1351a07089d80f07960d127d",
+      "vout": 0,
+      "value_sats": 2500000000,
+      "script_pubkey_hex": "76a914641e3ac3439ef9f6d38801fc1ea0a2581191664588ac",
+      "testnet_p2pkh_address": "mpeL5d4DfERgjEGN74qgCs8Crz435UDLNi"
+    }
+  ],
   "notes": [
-    "The source-embedded genesis transaction is confirmed on Bitcoin testnet3, not on the queried Bitcoin mainnet services.",
-    "Both source-genesis outputs are already spent; descendant reconstruction is required to determine whether any color-1 lineage survives.",
-    "Do not spend or move any descendant output during archaeological verification.",
+    "The source-embedded genesis transaction is confirmed on Bitcoin testnet3, not on the two queried Bitcoin mainnet services.",
+    "Two independent Esplora providers agree on the reconstructed testnet3 lineage and surviving output state.",
+    "Two color-1 outputs remain unspent under the September 2012 whole-transaction rules, totaling 2,999,950,000 testnet satoshis (29.9995 tBTC units). This is protocol-state accounting, not economic value.",
+    "Two descendant transactions form terminal mixed boundaries where color 1 is destroyed under the historical rules.",
+    "Do not spend or move any surviving or descendant output during archaeological verification.",
     "The September 2012 cbtc rules color whole transactions, not individual outputs.",
     "This network-resolution record does not claim anything about retired historical testnet variants."
-  ]
+  ],
+  "census": {
+    "census_id": "cbtc-2012-testnet3-v0.1",
+    "workflow_run_id": 34746597636,
+    "workflow_head_sha": "f22eec926cad874d19c1a19b936488f7728d44f0",
+    "providers_agree": true,
+    "transactions_observed": 6,
+    "color_1_transactions": 4,
+    "terminal_mixed_transactions": 2
+  },
+  "surviving_color_1_sats": 2999950000,
+  "surviving_color_1_units_tbtc": 29.9995
 }
