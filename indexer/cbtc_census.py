@@ -94,7 +94,18 @@ class Cbtc2012Census:
             self._classifying.remove(txid)
 
     def scan(self, root_txid: str = GENESIS_TXID) -> CensusResult:
-        """Walk all canonical spend descendants reachable from the root outputs."""
+        """Reconstruct the color-1 frontier without traversing unrelated ancestry.
+
+        The historical source has exactly one non-default genesis color. That
+        lets the census propagate color 1 forward from the source-embedded root
+        instead of recursively walking every uncolored parent back to coinbase.
+
+        A spender is promoted to color 1 only when every input parent
+        transaction has already been proven color 1. Promotion is repeated to
+        a fixed point so transactions combining two independently discovered
+        colored branches are handled correctly. Any remaining spender that was
+        reached from a color-1 output is therefore a terminal mixed transaction.
+        """
 
         root = self.source.get_transaction(root_txid)
         if root is None:
@@ -105,53 +116,78 @@ class Cbtc2012Census:
                 outputs=(),
             )
 
-        queue = [root_txid]
-        seen: set[str] = set()
-        records: dict[str, TxRecord] = {}
-        outputs: list[CensusOutput] = []
+        records: dict[str, TxRecord] = {root_txid: root}
+        colors: dict[str, int] = {root_txid: GENESIS_COLOR}
+        pending: dict[str, TxRecord] = {}
+        expanded_color1: set[str] = set()
 
-        while queue:
-            txid = queue.pop(0)
-            if txid in seen:
-                continue
-            seen.add(txid)
+        while True:
+            # Discover spenders of every newly proven color-1 transaction.
+            expandable = [
+                records[txid]
+                for txid, color in colors.items()
+                if color == GENESIS_COLOR
+                and txid in records
+                and txid not in expanded_color1
+            ]
+            expandable.sort(key=TxRecord.historical_sort_key)
 
-            tx = self.source.get_transaction(txid)
-            if tx is None:
-                continue
+            for tx in expandable:
+                expanded_color1.add(tx.txid)
+                for vout, _txout in enumerate(tx.outputs):
+                    spender = self.source.get_spender(tx.txid, vout)
+                    if (
+                        spender is None
+                        or spender in colors
+                        or spender in pending
+                    ):
+                        continue
 
-            records[txid] = tx
-            color = self.classify(txid)
+                    spender_tx = self.source.get_transaction(spender)
+                    if spender_tx is None:
+                        continue
 
-            for vout, txout in enumerate(tx.outputs):
-                spender = self.source.get_spender(txid, vout)
-                outputs.append(
-                    CensusOutput(
-                        txid=txid,
-                        vout=vout,
-                        value_sats=txout.value_sats,
-                        transaction_color=color,
-                        spent_by=spender,
-                    )
+                    records[spender] = spender_tx
+                    pending[spender] = spender_tx
+
+            # Promote candidates whose every parent transaction is already
+            # proven color 1. This is exactly the historical all-parents-agree
+            # rule specialized to the single source-defined color.
+            promoted = [
+                txid
+                for txid, tx in pending.items()
+                if tx.inputs
+                and all(
+                    colors.get(txin.prev_txid) == GENESIS_COLOR
+                    for txin in tx.inputs
                 )
-                # Follow a spender only while the source transaction still
-                # carries the historical color. A spender of a color-1 output
-                # is always inspected, but once that spender classifies as
-                # mixed/default/unknown its outputs are recorded as the point
-                # where the colored lineage terminates and are not followed
-                # further.
-                if (
-                    color == GENESIS_COLOR
-                    and spender is not None
-                    and spender not in seen
-                ):
-                    queue.append(spender)
+            ]
+
+            if promoted:
+                for txid in promoted:
+                    colors[txid] = GENESIS_COLOR
+                    self._color_cache[txid] = GENESIS_COLOR
+                    pending.pop(txid)
+                continue
+
+            # Fixed point reached. Every remaining candidate was discovered
+            # because it spends at least one color-1 output, but at least one
+            # of its other parent transactions cannot be proven color 1.
+            # Under this 2012 one-genesis ruleset, that makes the transaction
+            # mixed and ends the colored lineage at this boundary.
+            for txid in pending:
+                colors[txid] = int(Color.MIXED)
+                self._color_cache[txid] = int(Color.MIXED)
+            pending.clear()
+            break
+
+        self._color_cache[root_txid] = GENESIS_COLOR
 
         ordered_records = sorted(records.values(), key=TxRecord.historical_sort_key)
         transactions = tuple(
             CensusTransaction(
                 txid=tx.txid,
-                color=self.classify(tx.txid),
+                color=colors[tx.txid],
                 block_height=tx.block_height,
                 tx_index=tx.tx_index,
                 block_hash=tx.block_hash,
@@ -160,15 +196,19 @@ class Cbtc2012Census:
             for tx in ordered_records
         )
 
-        output_by_tx_position = {
-            tx.txid: position for position, tx in enumerate(ordered_records)
-        }
-        outputs.sort(
-            key=lambda output: (
-                output_by_tx_position.get(output.txid, 2**63 - 1),
-                output.vout,
-            )
-        )
+        outputs: list[CensusOutput] = []
+        for tx in ordered_records:
+            color = colors[tx.txid]
+            for vout, txout in enumerate(tx.outputs):
+                outputs.append(
+                    CensusOutput(
+                        txid=tx.txid,
+                        vout=vout,
+                        value_sats=txout.value_sats,
+                        transaction_color=color,
+                        spent_by=self.source.get_spender(tx.txid, vout),
+                    )
+                )
 
         return CensusResult(
             root_txid=root_txid,
