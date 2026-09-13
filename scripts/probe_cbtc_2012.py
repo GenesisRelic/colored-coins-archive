@@ -10,6 +10,11 @@ from __future__ import annotations
 
 import argparse
 import json
+from pathlib import Path
+import sys
+
+# Make repository-root packages importable when this file is executed directly.
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 from indexer.protocols.cbtc_2012 import GENESIS_TXID, RULESET_ID
 from indexer.sources.esplora import EsploraError, EsploraSource
