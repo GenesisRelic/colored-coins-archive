@@ -1,0 +1,26 @@
+{
+  "artifact_id": "cbtc-2012-genesis-candidate-092ec331",
+  "status": "source-verified-network-unresolved",
+  "protocol_ruleset": "killerstorm-bitcoin-cbtc-2012-09-04",
+  "txid": "092ec331582704a05c5c0bde0b70825b2d31aea8342650582d889240da364397",
+  "source": {
+    "repository": "https://github.com/killerstorm/bitcoin",
+    "branch": "cbtc",
+    "commit": "e64cafd0b5f2cad8bd86068e8661a53fe4d36bb6",
+    "function": "CTransaction::GetPredefinedColor",
+    "assigned_color": 1
+  },
+  "network": null,
+  "block_height": null,
+  "block_hash": null,
+  "block_time": null,
+  "transaction_index": null,
+  "outputs": null,
+  "descendant_count": null,
+  "surviving_utxos": null,
+  "notes": [
+    "Do not classify as Bitcoin mainnet until independent chain evidence resolves the network.",
+    "Do not spend or move any descendant output during archaeological verification.",
+    "The September 2012 cbtc rules color whole transactions, not individual outputs."
+  ]
+}
