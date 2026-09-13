@@ -11,11 +11,33 @@ This record documents the surviving public GitHub repository `vbuterin/coloredco
 - Repository name: `coloredcoins`
 - Historical/default branch observed during retrieval: `coloredcoins`
 - Retrieval date: `2026-09-13`
+- Root commit: `aa2bc9fb1f5cbe7035df541efe636420457f045c`
+- Root timestamp: `2013-09-27T22:09:50Z`
+- Root message: `First commit`
 - Tip commit inspected: `6ae3d0e309543997e427942c72bb1893584ea7fe`
-- Tip commit timestamp: `2013-10-06T12:01:37Z`
-- Tip commit message: `Added change address to mkgenesis`
+- Tip timestamp: `2013-10-06T12:01:37Z`
+- Tip message: `Added change address to mkgenesis`
 
-The Git commit SHA above is the primary identity for the inspected source state. Future archival snapshots must be verified against this commit rather than against a moving branch name.
+The root commit has no parent. The inspected branch consists of exactly ten commits from the root through the tip listed below.
+
+## Complete surviving commit lineage
+
+Chronological order, oldest first:
+
+| # | Timestamp (UTC) | Commit | Message |
+|---:|---|---|---|
+| 1 | 2013-09-27 22:09:50 | `aa2bc9fb1f5cbe7035df541efe636420457f045c` | `First commit` |
+| 2 | 2013-10-01 13:13:55 | `debeddc6922d2a4e337dcfcb6bcb79e4eac0b13c` | `Bugfixes and one protocol fix` |
+| 3 | 2013-10-06 06:42:44 | `40f29a2ce1872abbfcbb332c962de34d4e2183a9` | `Made some API changes` |
+| 4 | 2013-10-06 07:07:56 | `72a1c4aa2f264a8952f3cbe5bc154b234a626bc4` | `debug` |
+| 5 | 2013-10-06 07:46:06 | `c93f8b12c4bfedd6ab29970adaf33a0871b8e063` | `Added logging and fixed some bugs` |
+| 6 | 2013-10-06 07:57:45 | `600a9156d2edc172c00907d88da2f62044414167` | `Small bugfix` |
+| 7 | 2013-10-06 08:09:33 | `62b431f37c27b7bdd0bef8fcc300f78c59e795c8` | `Fixed small bug and added readme` |
+| 8 | 2013-10-06 08:12:24 | `4579b8e0293410ddbee002003f854fc9c77efcbf` | `Moved readme to license` |
+| 9 | 2013-10-06 11:49:45 | `81815df28236a9b7dedf309a2df4a9d38fcfc2a7` | `Added more debug checking` |
+| 10 | 2013-10-06 12:01:37 | `6ae3d0e309543997e427942c72bb1893584ea7fe` | `Added change address to mkgenesis` |
+
+This sequence is the surviving Git-history baseline for this implementation. No future restoration work should rewrite or backdate these commits.
 
 ## Files at inspected tip
 
@@ -38,27 +60,34 @@ The repository's `LICENSE` declares the code public domain and provides an MIT l
 
 The historical license file must be preserved verbatim with any archived source snapshot.
 
-## Protocol observations from the inspected source
+## Protocol observations from the inspected history
 
 These observations are descriptive and must not be confused with a final protocol specification:
 
-1. `package.json` describes the package as `coloredcoins`, version `0.0.8`, with description `Basic colored coins implementation` and author `vbuterin`.
-2. `main.js` constructs genesis transactions with colored outputs before a fixed Bitcoin address `1111111111111111111114oLvT2`, followed by metadata outputs.
-3. `main.js` contains routines named `find_genesis`, `find_current_owner`, and `get_metadata`, showing that this implementation explicitly attempted to trace a colored unit back to genesis and forward to its current owner.
-4. The code uses an order/offset-based flow model across transaction inputs and outputs. Any modern reimplementation must be tested against historical behavior before we label it compatible.
+1. `package.json` at the inspected tip describes the package as `coloredcoins`, version `0.0.8`, with description `Basic colored coins implementation` and author `vbuterin`.
+2. The October 1 commit is explicitly titled `Bugfixes and one protocol fix`; its diff changes genesis construction so that a mandatory change output is appended and transaction construction treats the final output as change. This is historically significant because it shows protocol behavior changed inside the surviving ten-commit window.
+3. By commit `40f29a2ce1872abbfcbb332c962de34d4e2183a9` on October 6, the source comments and genesis code explicitly use `1111111111111111111114oLvT2` as the marker separating colored outputs from metadata.
+4. `main.js` contains routines named `find_genesis`, `find_current_owner`, and `get_metadata`, showing that this implementation explicitly attempted to trace a colored unit back to genesis and forward to its current owner.
+5. The code uses an order/offset-based flow model across transaction inputs and outputs. Any modern reimplementation must be tested commit-by-commit where protocol behavior differs, rather than assuming the tip represents every earlier transaction.
+
+## Archaeological implication
+
+The existence of protocol-affecting changes means a blockchain census must be version-aware. Candidate historical transactions should be evaluated against the rule set that existed when they were created. The first scanner therefore needs at least two modes:
+
+- **root/early rules**, beginning with the September 27 source state; and
+- **post-protocol-fix rules**, beginning with the October 1 change and following the later October refinements.
+
+The fixed marker address provides a useful on-chain search fingerprint, but a transaction matching that address alone is not sufficient evidence of a Colored Coins genesis. Output ordering, value flow, metadata layout, date, and historical rule compatibility must also be checked.
 
 ## Preservation rule
 
 No file from the historical repository is to be silently corrected, reformatted, dependency-updated, or security-patched inside the historical archive. Modern fixes belong outside `historical/` and must reference the exact historical commit they reproduce or intentionally diverge from.
 
-## Next archival action
+## Next archival actions
 
-Create an independent immutable snapshot of commit `6ae3d0e309543997e427942c72bb1893584ea7fe`, preserving:
-
-- all original commits reachable from the historical branch,
-- commit authors and timestamps,
-- tree/blob identities,
-- the original license,
-- and an independently calculated archive checksum.
+1. Create an independent immutable snapshot of the complete ten-commit history through `6ae3d0e309543997e427942c72bb1893584ea7fe`.
+2. Calculate and publish an independent checksum for that snapshot or Git bundle.
+3. Extract deterministic protocol test vectors from the root, October 1 protocol-fix state, and final October 6 state.
+4. Search historical Bitcoin transactions for marker-compatible genesis candidates and validate them against the correct historical rule set.
 
 A Git bundle or bare mirror is preferred for the long-term archive because it preserves repository history rather than only the working-tree files.
