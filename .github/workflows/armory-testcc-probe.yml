@@ -1,0 +1,63 @@
+name: Armory TESTcc network probe
+
+on:
+  push:
+    branches:
+      - reconstruction/order-based-weak-coloring-2012
+    paths:
+      - ".github/workflows/armory-testcc-probe.yml"
+      - "scripts/probe_bitcoin_tx.py"
+      - "historical/candidates/armory_testcc_2012.json"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - label: mempool-mainnet
+            network: bitcoin-mainnet
+            base_url: https://mempool.space
+          - label: blockstream-mainnet
+            network: bitcoin-mainnet
+            base_url: https://blockstream.info
+          - label: mempool-testnet3
+            network: bitcoin-testnet3
+            base_url: https://mempool.space/testnet
+          - label: blockstream-testnet3
+            network: bitcoin-testnet3
+            base_url: https://blockstream.info/testnet
+
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Probe TESTcc issue transaction
+        shell: bash
+        run: |
+          mkdir -p results
+          set +e
+          python scripts/probe_bitcoin_tx.py \
+            --base-url "${{ matrix.base_url }}" \
+            --network "${{ matrix.network }}" \
+            --txid "c26166c7a387b85eca0adbb86811a9d122a5d96605627ad4125f17f6ddcbf89b" \
+            --label "armory-testcc-2012" \
+            > "results/${{ matrix.label }}.json"
+          code=$?
+          set -e
+          echo "probe_exit_code=$code"
+          cat "results/${{ matrix.label }}.json"
+
+      - name: Upload probe evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: armory-testcc-${{ matrix.label }}
+          path: results/${{ matrix.label }}.json
+          if-no-files-found: error
