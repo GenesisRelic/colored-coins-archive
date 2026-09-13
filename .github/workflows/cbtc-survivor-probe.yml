@@ -1,0 +1,60 @@
+name: CBTC 2012 survivor probe
+
+on:
+  push:
+    branches:
+      - reconstruction/cbtc-2012-kernel
+    paths:
+      - ".github/workflows/cbtc-survivor-probe.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - label: mempool-survivor-a
+            base_url: https://mempool.space/testnet
+            txid: 64dfdc0c777c1c100cae33a4ca86033f49f122514c9ef84b6fb7ad517a2595ce
+          - label: blockstream-survivor-a
+            base_url: https://blockstream.info/testnet
+            txid: 64dfdc0c777c1c100cae33a4ca86033f49f122514c9ef84b6fb7ad517a2595ce
+          - label: mempool-survivor-b
+            base_url: https://mempool.space/testnet
+            txid: cc5131c3c70d6905625a8294fc4ef52d2fec568f1351a07089d80f07960d127d
+          - label: blockstream-survivor-b
+            base_url: https://blockstream.info/testnet
+            txid: cc5131c3c70d6905625a8294fc4ef52d2fec568f1351a07089d80f07960d127d
+
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Probe surviving transaction
+        shell: bash
+        run: |
+          mkdir -p results
+          set +e
+          python scripts/probe_cbtc_2012.py \
+            --base-url "${{ matrix.base_url }}" \
+            --network "bitcoin-testnet3" \
+            --txid "${{ matrix.txid }}" \
+            > "results/${{ matrix.label }}.json"
+          code=$?
+          set -e
+          echo "probe_exit_code=$code"
+          cat "results/${{ matrix.label }}.json"
+
+      - name: Upload survivor evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: cbtc-${{ matrix.label }}
+          path: results/${{ matrix.label }}.json
+          if-no-files-found: error
