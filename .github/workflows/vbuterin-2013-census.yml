@@ -1,0 +1,89 @@
+name: vbuterin 2013 genesis census
+
+on:
+  push:
+    branches:
+      - main
+      - claude/sharp-mccarthy-3evzom
+    paths:
+      - ".github/workflows/vbuterin-2013-census.yml"
+      - "scripts/census_vbuterin_2013.py"
+      - "indexer/vbuterin_2013_census.py"
+      - "indexer/protocols/vbuterin_2013.py"
+      - "indexer/sources/esplora.py"
+      - "scripts/summarize_vbuterin_2013_census.py"
+  workflow_dispatch:
+    inputs:
+      network:
+        description: "Which network to run (mainnet, testnet3 or both)"
+        default: both
+      start_after:
+        description: "Resume address paging after this TXID (resume_after from a previous run of the same network)"
+        default: ""
+      candidates_file:
+        description: "Repository path of a candidate list (e.g. scantxoutset output) to assess instead of address paging"
+        default: ""
+
+permissions:
+  contents: read
+
+jobs:
+  census:
+    runs-on: ubuntu-latest
+    timeout-minutes: 340
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - label: mempool-mainnet
+            request_delay: 1.0
+            base_url: https://mempool.space
+            network: bitcoin-mainnet
+          - label: blockstream-mainnet
+            request_delay: 2.0
+            base_url: https://blockstream.info
+            network: bitcoin-mainnet
+          - label: mempool-testnet3
+            request_delay: 1.0
+            base_url: https://mempool.space/testnet
+            network: bitcoin-testnet3
+          - label: blockstream-testnet3
+            request_delay: 2.0
+            base_url: https://blockstream.info/testnet
+            network: bitcoin-testnet3
+
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Find and trace marker-address geneses
+        if: >-
+          github.event_name != 'workflow_dispatch' || inputs.network == 'both' ||
+          contains(matrix.network, inputs.network)
+        shell: bash
+        run: |
+          mkdir -p results
+          set +e
+          python scripts/census_vbuterin_2013.py \
+            --base-url "${{ matrix.base_url }}" \
+            --network "${{ matrix.network }}" \
+            --request-delay "${{ matrix.request_delay }}" \
+            ${{ inputs.start_after && format('--start-after {0}', inputs.start_after) || '' }} \
+            ${{ inputs.candidates_file && format('--candidates-file {0}', inputs.candidates_file) || '' }} \
+            > "results/${{ matrix.label }}.json"
+          code=$?
+          set -e
+          echo "census_exit_code=$code"
+          python scripts/summarize_vbuterin_2013_census.py "results/${{ matrix.label }}.json"
+
+      - name: Upload census evidence
+        if: >-
+          github.event_name != 'workflow_dispatch' || inputs.network == 'both' ||
+          contains(matrix.network, inputs.network)
+        uses: actions/upload-artifact@v4
+        with:
+          name: vbuterin-2013-census-${{ matrix.label }}
+          path: results/${{ matrix.label }}.json
+          if-no-files-found: error
